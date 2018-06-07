@@ -6,3 +6,12 @@
  */
 //添加友链按钮
 add_filter('pre_option_link_manager_enabled', '__return_true');
+//显示评论@回复了谁 不入数据库
+function comment_add_at( $comment_text, $comment = '') {
+    if( $comment->comment_parent > 0) {
+        $comment_text = '<a href="#comment-' . $comment->comment_parent . '">@'.get_comment_author( $comment->comment_parent ) . '</a> ' . $comment_text;
+    }
+
+    return $comment_text;
+}
+add_filter( 'comment_text' , 'comment_add_at', 20, 2);
