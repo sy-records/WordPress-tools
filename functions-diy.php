@@ -15,3 +15,14 @@ function comment_add_at( $comment_text, $comment = '') {
     return $comment_text;
 }
 add_filter( 'comment_text' , 'comment_add_at', 20, 2);
+//让WordPress小工具文本支持PHP
+add_filter('widget_text', 'php_text', 99);
+function php_text($text) {
+    if (strpos($text, '<' . '?') !== false) {
+        ob_start();
+        eval('?' . '>' . $text);
+        $text = ob_get_contents();
+        ob_end_clean();
+    }
+    return $text;
+}
