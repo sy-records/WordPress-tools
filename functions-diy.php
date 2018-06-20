@@ -26,3 +26,24 @@ function php_text($text) {
     }
     return $text;
 }
+// 最热文章
+function most_comm_posts($days=7, $nums=10) { //$days参数限制时间值，单位为‘天’，默认是7天；$nums是要显示文章数量
+    global $wpdb;
+    $today = date("Y-m-d H:i:s"); //获取今天日期时间
+    $daysago = date( "Y-m-d H:i:s", strtotime($today) - ($days * 24 * 60 * 60) );  //Today - $days
+    $result = $wpdb->get_results("SELECT comment_count, ID, post_title, post_date FROM $wpdb->posts WHERE post_date BETWEEN '$daysago' AND '$today' ORDER BY comment_count DESC LIMIT 0 , $nums");
+    $output = '';
+    if(empty($result)) {
+        $output = '<li>None data.</li>';
+    } else {
+        foreach ($result as $topten) {
+            $postid = $topten->ID;
+            $title = $topten->post_title;
+            $commentcount = $topten->comment_count;
+            if ($commentcount != 0) {
+                $output .= '<li><a href="'.get_permalink($postid).'" title="'.$title.'">'.$title.'</a></li>';
+            }
+        }
+    }
+    echo $output;
+}
