@@ -6,15 +6,17 @@
  */
 //添加友链按钮
 add_filter('pre_option_link_manager_enabled', '__return_true');
-//显示评论@回复了谁 不入数据库
-function comment_add_at( $comment_text, $comment = '') {
-    if( $comment->comment_parent > 0) {
-        $comment_text = '<a href="#comment-' . $comment->comment_parent . '">@'.get_comment_author( $comment->comment_parent ) . '</a> ' . $comment_text;
-    }
 
-    return $comment_text;
+//显示评论@回复了谁 不入数据库
+function comment_add_at($comment_text, $comment = '') {
+	if ($comment->comment_parent > 0) {
+		$comment_text = '<a href="#comment-' . $comment->comment_parent . '">@' . get_comment_author($comment->comment_parent) . '</a> ' . $comment_text;
+	}
+
+	return $comment_text;
 }
-add_filter( 'comment_text' , 'comment_add_at', 20, 2);
+add_filter('comment_text', 'comment_add_at', 20, 2);
+
 //让WordPress小工具文本支持PHP
 add_filter('widget_text', 'php_text', 99);
 function php_text($text) {
@@ -47,3 +49,56 @@ function most_comm_posts($days=7, $nums=10) { //$days参数限制时间值，单
     }
     echo $output;
 }
+
+//防止作者信息泄露
+function change_comment_or_body_classes($classes, $comment_id) {
+	global $wp_query;
+	$comment = get_comment($comment_id);
+	$user = get_userdata($comment->user_id);
+	$comment_author = 'comment-author-' . sanitize_html_class($user->user_nicename, $comment->user_id);
+	$author = $wp_query->get_queried_object();
+	$archive_author = 'author-' . sanitize_html_class($author->user_nicename, $author->ID);
+	$archive_author_id = 'author-' . $author->ID;
+	foreach ($classes as $key => $class) {
+		switch ($class) {
+		case $comment_author:
+// $classes[$key] = 'comment-author-' . sanitize_html_class( $comment->comment_author, $comment->comment_author );
+			$classes[$key] = 'comment-author-' . sanitize_html_class($comment->user_id);
+			break;
+		case $archive_author:
+// $classes[$key] = 'author-' . sanitize_html_class( get_the_author_meta( 'display_name' ), get_the_author_meta( 'display_name' ) );
+			$classes[$key] = 'author-' . sanitize_html_class($author->ID);
+			break;
+		case $archive_author_id:
+			$classes[$key] = '';
+			break;
+		}
+	}
+	return $classes;
+}
+add_filter('comment_class', 'change_comment_or_body_classes', 10, 4);
+add_filter('body_class', 'change_comment_or_body_classes', 10, 4);
+
+ //后台登陆数学验证码
+ function myplugin_add_login_fields() {
+ //获取两个随机数, 范围0~9
+ $num1=rand(0,9);
+ $num2=rand(0,9);
+ //最终网页中的具体内容
+     echo "<p><label for='math' class='small'>验证码</label><br /> $num1 + $num2 = ?<input type='text' name='sum' class='input' value='' size='25' tabindex='4'>"
+ ."<input type='hidden' name='num1' value='$num1'>"
+ ."<input type='hidden' name='num2' value='$num2'></p>";
+ }
+ add_action('login_form','myplugin_add_login_fields');
+ function login_val() {
+ $sum=$_POST['sum'];//用户提交的计算结果
+ switch($sum){
+ //得到正确的计算结果则直接跳出
+ case $_POST['num1']+$_POST['num2']:break;
+ //未填写结果时的错误讯息
+ case null:wp_die('错误: 请输入验证码.');break;
+ //计算错误时的错误讯息
+ default:wp_die('错误: 验证码错误,请重试.');
+ }
+ }
+ add_action('login_form_login','login_val');
