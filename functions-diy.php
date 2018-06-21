@@ -102,3 +102,18 @@ add_filter('body_class', 'change_comment_or_body_classes', 10, 4);
  }
  }
  add_action('login_form_login','login_val');
+
+//完全禁用 wp-json
+if ( version_compare( get_bloginfo( 'version' ), '4.7', '>=' ) ) {
+    function disable_rest_api( $access ) {
+        return new WP_Error( 'rest_cannot_acess', '无访问权限', array( 'status' => 403 ) );
+    }
+    add_filter( 'rest_authentication_errors', 'disable_rest_api' );
+} else {
+    // Filters for WP-API version 1.x
+    add_filter( 'json_enabled', '__return_false' );
+    add_filter( 'json_jsonp_enabled', '__return_false' );
+    // Filters for WP-API version 2.x
+    add_filter( 'rest_enabled', '__return_false' );
+    add_filter( 'rest_jsonp_enabled', '__return_false' );
+}
