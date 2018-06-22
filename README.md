@@ -8,3 +8,4 @@
 5、防止作者信息泄露  
 6、后台登陆数学验证码  
 7、完全禁用 wp-json  
+8、移除头部 wp-json 标签和 HTTP header 中的 link
