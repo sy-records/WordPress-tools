@@ -20,34 +20,36 @@ add_filter('comment_text', 'comment_add_at', 20, 2);
 //让WordPress小工具文本支持PHP
 add_filter('widget_text', 'php_text', 99);
 function php_text($text) {
-    if (strpos($text, '<' . '?') !== false) {
-        ob_start();
-        eval('?' . '>' . $text);
-        $text = ob_get_contents();
-        ob_end_clean();
-    }
-    return $text;
+	if (strpos($text, '<' . '?') !== false) {
+		ob_start();
+		eval('?' . '>' . $text);
+		$text = ob_get_contents();
+		ob_end_clean();
+	}
+	return $text;
 }
+
 // 最热文章
-function most_comm_posts($days=7, $nums=10) { //$days参数限制时间值，单位为‘天’，默认是7天；$nums是要显示文章数量
-    global $wpdb;
-    $today = date("Y-m-d H:i:s"); //获取今天日期时间
-    $daysago = date( "Y-m-d H:i:s", strtotime($today) - ($days * 24 * 60 * 60) );  //Today - $days
-    $result = $wpdb->get_results("SELECT comment_count, ID, post_title, post_date FROM $wpdb->posts WHERE post_date BETWEEN '$daysago' AND '$today' ORDER BY comment_count DESC LIMIT 0 , $nums");
-    $output = '';
-    if(empty($result)) {
-        $output = '<li>None data.</li>';
-    } else {
-        foreach ($result as $topten) {
-            $postid = $topten->ID;
-            $title = $topten->post_title;
-            $commentcount = $topten->comment_count;
-            if ($commentcount != 0) {
-                $output .= '<li><a href="'.get_permalink($postid).'" title="'.$title.'">'.$title.'</a></li>';
-            }
-        }
-    }
-    echo $output;
+function most_comm_posts($days = 7, $nums = 10) {
+	//$days参数限制时间值，单位为‘天’，默认是7天；$nums是要显示文章数量
+	global $wpdb;
+	$today = date("Y-m-d H:i:s"); //获取今天日期时间
+	$daysago = date("Y-m-d H:i:s", strtotime($today) - ($days * 24 * 60 * 60)); //Today - $days
+	$result = $wpdb->get_results("SELECT comment_count, ID, post_title, post_date FROM $wpdb->posts WHERE post_date BETWEEN '$daysago' AND '$today' ORDER BY comment_count DESC LIMIT 0 , $nums");
+	$output = '';
+	if (empty($result)) {
+		$output = '<li>None data.</li>';
+	} else {
+		foreach ($result as $topten) {
+			$postid = $topten->ID;
+			$title = $topten->post_title;
+			$commentcount = $topten->comment_count;
+			if ($commentcount != 0) {
+				$output .= '<li><a href="' . get_permalink($postid) . '" title="' . $title . '">' . $title . '</a></li>';
+			}
+		}
+	}
+	echo $output;
 }
 
 //防止作者信息泄露
@@ -79,45 +81,56 @@ function change_comment_or_body_classes($classes, $comment_id) {
 add_filter('comment_class', 'change_comment_or_body_classes', 10, 4);
 add_filter('body_class', 'change_comment_or_body_classes', 10, 4);
 
- //后台登陆数学验证码
- function myplugin_add_login_fields() {
- //获取两个随机数, 范围0~9
- $num1=rand(0,9);
- $num2=rand(0,9);
- //最终网页中的具体内容
-     echo "<p><label for='math' class='small'>验证码</label><br /> $num1 + $num2 = ?<input type='text' name='sum' class='input' value='' size='25' tabindex='4'>"
- ."<input type='hidden' name='num1' value='$num1'>"
- ."<input type='hidden' name='num2' value='$num2'></p>";
- }
- add_action('login_form','myplugin_add_login_fields');
- function login_val() {
- $sum=$_POST['sum'];//用户提交的计算结果
- switch($sum){
- //得到正确的计算结果则直接跳出
- case $_POST['num1']+$_POST['num2']:break;
- //未填写结果时的错误讯息
- case null:wp_die('错误: 请输入验证码.');break;
- //计算错误时的错误讯息
- default:wp_die('错误: 验证码错误,请重试.');
- }
- }
- add_action('login_form_login','login_val');
+//后台登陆数学验证码
+function myplugin_add_login_fields() {
+	//获取两个随机数, 范围0~9
+	$num1 = rand(0, 9);
+	$num2 = rand(0, 9);
+	//最终网页中的具体内容
+	echo "<p><label for='math' class='small'>验证码</label><br /> $num1 + $num2 = ?<input type='text' name='sum' class='input' value='' size='25' tabindex='4'>"
+		. "<input type='hidden' name='num1' value='$num1'>"
+		. "<input type='hidden' name='num2' value='$num2'></p>";
+}
+add_action('login_form', 'myplugin_add_login_fields');
+function login_val() {
+	$sum = $_POST['sum']; //用户提交的计算结果
+	switch ($sum) {
+	//得到正确的计算结果则直接跳出
+	case $_POST['num1'] + $_POST['num2']:break;
+	//未填写结果时的错误讯息
+	case null:wp_die('错误: 请输入验证码.');
+		break;
+	//计算错误时的错误讯息
+	default:wp_die('错误: 验证码错误,请重试.');
+	}
+}
+add_action('login_form_login', 'login_val');
 
 //完全禁用 wp-json
-if ( version_compare( get_bloginfo( 'version' ), '4.7', '>=' ) ) {
-    function disable_rest_api( $access ) {
-        return new WP_Error( 'rest_cannot_acess', '无访问权限', array( 'status' => 403 ) );
-    }
-    add_filter( 'rest_authentication_errors', 'disable_rest_api' );
+if (version_compare(get_bloginfo('version'), '4.7', '>=')) {
+	function disable_rest_api($access) {
+		return new WP_Error('rest_cannot_acess', '无访问权限', array('status' => 403));
+	}
+	add_filter('rest_authentication_errors', 'disable_rest_api');
 } else {
-    // Filters for WP-API version 1.x
-    add_filter( 'json_enabled', '__return_false' );
-    add_filter( 'json_jsonp_enabled', '__return_false' );
-    // Filters for WP-API version 2.x
-    add_filter( 'rest_enabled', '__return_false' );
-    add_filter( 'rest_jsonp_enabled', '__return_false' );
+	// Filters for WP-API version 1.x
+	add_filter('json_enabled', '__return_false');
+	add_filter('json_jsonp_enabled', '__return_false');
+	// Filters for WP-API version 2.x
+	add_filter('rest_enabled', '__return_false');
+	add_filter('rest_jsonp_enabled', '__return_false');
 }
 
 // 移除头部 wp-json 标签和 HTTP header 中的 link
-remove_action('wp_head', 'rest_output_link_wp_head', 10 );
-remove_action('template_redirect', 'rest_output_link_header', 11 );
+remove_action('wp_head', 'rest_output_link_wp_head', 10);
+remove_action('template_redirect', 'rest_output_link_header', 11);
+
+//防止 WordPress 任意文件删除漏洞
+add_filter('wp_update_attachment_metadata', 'rips_unlink_tempfix');
+function rips_unlink_tempfix($data) {
+	if (isset($data['thumb'])) {
+		$data['thumb'] = basename($data['thumb']);
+	}
+
+	return $data;
+}
