@@ -125,6 +125,16 @@ if (version_compare(get_bloginfo('version'), '4.7', '>=')) {
 remove_action('wp_head', 'rest_output_link_wp_head', 10);
 remove_action('template_redirect', 'rest_output_link_header', 11);
 
+//防止 WordPress 任意文件删除漏洞
+add_filter('wp_update_attachment_metadata', 'rips_unlink_tempfix');
+function rips_unlink_tempfix($data) {
+	if (isset($data['thumb'])) {
+		$data['thumb'] = basename($data['thumb']);
+	}
+
+	return $data;
+}
+
 // 博客后台登录失败时发送邮件通知管理员
 function wp_login_failed_notify() {
 	date_default_timezone_set('PRC');
