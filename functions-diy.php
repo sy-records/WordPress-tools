@@ -151,3 +151,13 @@ function wp_login_failed_notify() {
 	wp_mail($to, $subject, $message, "Content-Type: text/html; charset=UTF-8");
 }
 add_action('wp_login_failed', 'wp_login_failed_notify');
+
+//页面伪静态
+add_action('init', 'html_page_permalink', -1);
+
+function html_page_permalink() {
+	global $wp_rewrite;
+	if (!strpos($wp_rewrite->get_page_permastruct(), '.html')) {
+		$wp_rewrite->page_structure = $wp_rewrite->page_structure . '.html';
+	}
+}
