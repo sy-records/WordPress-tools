@@ -161,3 +161,15 @@ function html_page_permalink() {
 		$wp_rewrite->page_structure = $wp_rewrite->page_structure . '.html';
 	}
 }
+
+//禁用所有文章类型的修订版本
+add_filter( 'wp_revisions_to_keep', 'specs_wp_revisions_to_keep', 10, 2 );
+function specs_wp_revisions_to_keep( $num, $post ) {
+    return 0;
+}
+
+//禁用自动保存
+add_action('wp_print_scripts','disable_autosave');
+function disable_autosave(){
+    wp_deregister_script('autosave');
+}
