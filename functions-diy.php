@@ -222,3 +222,15 @@ function fanly_post_imgs() {
     }
     return $src;
 }
+
+//WordPress防止网站被别人iframe框架调用的方法
+function break_out_of_frames() {
+    if (!is_preview()) {
+        echo "\n<script type=\"text/javascript\">";
+        echo "\n<!--";
+        echo "\nif (parent.frames.length > 0) { parent.location.href = location.href; }";
+        echo "\n-->";
+        echo "\n</script>\n\n";
+    }
+}
+add_action('wp_head', 'break_out_of_frames');
