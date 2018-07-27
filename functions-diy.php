@@ -240,4 +240,5 @@ function html_entity_decode_title($title) {
     $title = html_entity_decode($title);
     return $title;
 }
-add_action('the_title', 'html_entity_decode_title');
+add_action('the_title', 'html_entity_decode_title'); //文章
+add_action('wp_title', 'html_entity_decode_title'); //网页
