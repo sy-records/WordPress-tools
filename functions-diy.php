@@ -234,3 +234,10 @@ function break_out_of_frames() {
     }
 }
 add_action('wp_head', 'break_out_of_frames');
+
+//优化熊掌号主页显示 防止标题中的 - 被转义为实体符号
+function html_entity_decode_title($title) {
+    $title = html_entity_decode($title);
+    return $title;
+}
+add_action('the_title', 'html_entity_decode_title');
