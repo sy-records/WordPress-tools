@@ -240,5 +240,5 @@ function html_entity_decode_title($title) {
     $title = html_entity_decode($title);
     return $title;
 }
-add_action('the_title', 'html_entity_decode_title'); //文章
-add_action('wp_title', 'html_entity_decode_title'); //网页
+add_filter('the_title','html_entity_decode_title'); // 文章title - get_the_title()、the_title()
+add_filter('wp_title', 'html_entity_decode_title'); // 网页title - wp_title()
