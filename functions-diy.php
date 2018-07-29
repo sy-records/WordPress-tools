@@ -163,15 +163,15 @@ function html_page_permalink() {
 }
 
 //禁用所有文章类型的修订版本
-add_filter( 'wp_revisions_to_keep', 'specs_wp_revisions_to_keep', 10, 2 );
-function specs_wp_revisions_to_keep( $num, $post ) {
-    return 0;
+add_filter('wp_revisions_to_keep', 'specs_wp_revisions_to_keep', 10, 2);
+function specs_wp_revisions_to_keep($num, $post) {
+	return 0;
 }
 
 //禁用自动保存
-add_action('wp_print_scripts','disable_autosave');
-function disable_autosave(){
-    wp_deregister_script('autosave');
+add_action('wp_print_scripts', 'disable_autosave');
+function disable_autosave() {
+	wp_deregister_script('autosave');
 }
 
 /**
@@ -180,65 +180,97 @@ function disable_autosave(){
  */
 //获取文章/页面摘要
 function fanly_excerpt($len = 220) {
-    if (is_single() || is_page()) {
-        global $post;
-        if ($post->post_excerpt) {
-            $excerpt = $post->post_excerpt;
-        } else {
-            if (preg_match('/<p>(.*)<\/p>/iU', trim(strip_tags($post->post_content, "<p>")), $result)) {
-                $post_content = $result['1'];
-            } else {
-                $post_content_r = explode("\n", trim(strip_tags($post->post_content)));
-                $post_content = $post_content_r['0'];
-            }
-            $excerpt = preg_replace('#^(?:[\x00-\x7F]|[\xC0-\xFF][\x80-\xBF]+){0,0}' . '((?:[\x00-\x7F]|[\xC0-\xFF][\x80-\xBF]+){0,' . $len . '}).*#s', '$1', $post_content);
-        }
-        return str_replace(array("\r\n", "\r", "\n"), "", $excerpt);
-    }
+	if (is_single() || is_page()) {
+		global $post;
+		if ($post->post_excerpt) {
+			$excerpt = $post->post_excerpt;
+		} else {
+			if (preg_match('/<p>(.*)<\/p>/iU', trim(strip_tags($post->post_content, "<p>")), $result)) {
+				$post_content = $result['1'];
+			} else {
+				$post_content_r = explode("\n", trim(strip_tags($post->post_content)));
+				$post_content = $post_content_r['0'];
+			}
+			$excerpt = preg_replace('#^(?:[\x00-\x7F]|[\xC0-\xFF][\x80-\xBF]+){0,0}' . '((?:[\x00-\x7F]|[\xC0-\xFF][\x80-\xBF]+){0,' . $len . '}).*#s', '$1', $post_content);
+		}
+		return str_replace(array("\r\n", "\r", "\n"), "", $excerpt);
+	}
 }
 //优先获取文章中的三张图，否则依次获取自定义图片/特色缩略图/文章首图 last update 2017/11/23
 function fanly_post_imgs() {
-    global $post;
-    $content = $post->post_content;
-    preg_match_all('/<img .*?src=[\"|\'](.+?)[\"|\'].*?>/', $content, $strResult, PREG_PATTERN_ORDER);
-    $n = count($strResult[1]);
-    if ($n >= 3) {
-        $src = $strResult[1][0] . '","' . $strResult[1][1] . '","' . $strResult[1][2];
-    } else {
-        if ($values = get_post_custom_values("thumb")) {
-            //输出自定义域图片地址
-            $values = get_post_custom_values("thumb");
-            $src = $values[0];
-        } elseif (has_post_thumbnail()) {
-            //如果有特色缩略图，则输出缩略图地址
-            $thumbnail_src = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'full');
-            $src = $thumbnail_src[0];
-        } else {
-            //文章中获取
-            if ($n > 0) { // 提取首图
-                $src = $strResult[1][0];
-            }
-        }
-    }
-    return $src;
+	global $post;
+	$content = $post->post_content;
+	preg_match_all('/<img .*?src=[\"|\'](.+?)[\"|\'].*?>/', $content, $strResult, PREG_PATTERN_ORDER);
+	$n = count($strResult[1]);
+	if ($n >= 3) {
+		$src = $strResult[1][0] . '","' . $strResult[1][1] . '","' . $strResult[1][2];
+	} else {
+		if ($values = get_post_custom_values("thumb")) {
+			//输出自定义域图片地址
+			$values = get_post_custom_values("thumb");
+			$src = $values[0];
+		} elseif (has_post_thumbnail()) {
+			//如果有特色缩略图，则输出缩略图地址
+			$thumbnail_src = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'full');
+			$src = $thumbnail_src[0];
+		} else {
+			//文章中获取
+			if ($n > 0) {
+				// 提取首图
+				$src = $strResult[1][0];
+			}
+		}
+	}
+	return $src;
 }
 
 //WordPress防止网站被别人iframe框架调用的方法
 function break_out_of_frames() {
-    if (!is_preview()) {
-        echo "\n<script type=\"text/javascript\">";
-        echo "\n<!--";
-        echo "\nif (parent.frames.length > 0) { parent.location.href = location.href; }";
-        echo "\n-->";
-        echo "\n</script>\n\n";
-    }
+	if (!is_preview()) {
+		echo "\n<script type=\"text/javascript\">";
+		echo "\n<!--";
+		echo "\nif (parent.frames.length > 0) { parent.location.href = location.href; }";
+		echo "\n-->";
+		echo "\n</script>\n\n";
+	}
 }
 add_action('wp_head', 'break_out_of_frames');
 
 //优化熊掌号主页显示 防止标题中的 - 被转义为实体符号
 function html_entity_decode_title($title) {
-    $title = html_entity_decode($title);
-    return $title;
+	$title = html_entity_decode($title);
+	return $title;
 }
-add_filter('the_title','html_entity_decode_title'); // 文章title - get_the_title()、the_title()
+add_filter('the_title', 'html_entity_decode_title'); // 文章title - get_the_title()、the_title()
 add_filter('wp_title', 'html_entity_decode_title'); // 网页title - wp_title()
+
+/**
+ * WordPress 站点纯代码屏蔽垃圾评论
+ * https://qq52o.me/1723.html
+ * @param  [type] $incoming_comment [description]
+ * @return [type]                   [description]
+ */
+function syz_comment_post($incoming_comment) {
+	$pattern = '/[一-龥]/u';
+	$jpattern = '/[ぁ-ん]+|[ァ-ヴ]+/u';
+	$ruattern = '/[А-я]+/u';
+	$arattern = '/[؟-ض]+|[ط-ل]+|[م-م]+/u';
+	$thattern = '/[ก-๛]+/u';
+	if (preg_match($jpattern, $incoming_comment['comment_content'])) {
+		wp_die("日文滚粗！Japanese Get out！日本語出て行け！");
+	}
+	if (preg_match($ruattern, $incoming_comment['comment_content'])) {
+		wp_die("北方野人讲的话我们不欢迎！Russians, get away！Savage выйти из Русского Севера!");
+	}
+	if (preg_match($arattern, $incoming_comment['comment_content'])) {
+		wp_die("不要用阿拉伯语！Please do not use Arabic！！من فضلك لا تستخدم اللغة العربية");
+	}
+	if (preg_match($thattern, $incoming_comment['comment_content'])) {
+		wp_die("人妖你好，人妖再见！Please do not use Thai！กรุณาอย่าใช้ภาษาไทย！");
+	}
+	if (!preg_match($pattern, $incoming_comment['comment_content'])) {
+		wp_die("写点汉字吧，博主外语很捉急！ Please write some chinese words！");
+	}
+	return ($incoming_comment);
+}
+add_filter('preprocess_comment', 'syz_comment_post');
