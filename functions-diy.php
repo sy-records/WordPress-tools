@@ -154,7 +154,6 @@ add_action('wp_login_failed', 'wp_login_failed_notify');
 
 //页面伪静态
 add_action('init', 'html_page_permalink', -1);
-
 function html_page_permalink() {
 	global $wp_rewrite;
 	if (!strpos($wp_rewrite->get_page_permastruct(), '.html')) {
@@ -274,3 +273,12 @@ function syz_comment_post($incoming_comment) {
 	return ($incoming_comment);
 }
 add_filter('preprocess_comment', 'syz_comment_post');
+
+//标题变为|
+function Bing_title_separator_to_line(){
+    return '|';
+}
+add_filter( 'document_title_separator', 'Bing_title_separator_to_line' );
+
+//彻底禁止WordPress缩略图
+add_filter( 'add_image_size', create_function( '', 'return 1;' ) );
