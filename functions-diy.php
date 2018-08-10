@@ -287,3 +287,14 @@ add_filter( 'document_title_separator', 'Bing_title_separator_to_line' );
 
 //彻底禁止WordPress缩略图
 add_filter( 'add_image_size', create_function( '', 'return 1;' ) );
+
+ //评论作者链接新窗口打开
+function my_get_comment_author_link() {
+	$url = get_comment_author_url( $comment_ID );
+	$author = get_comment_author( $comment_ID );
+	if ( empty( $url ) || 'http://' == $url )
+	return $author;
+	else
+	return "<a href='$url' target='_blank' rel='external nofollow' class='url'>$author</a>";
+}
+add_filter('get_comment_author_link', 'my_get_comment_author_link');
