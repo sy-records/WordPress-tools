@@ -298,3 +298,17 @@ function my_get_comment_author_link() {
 	return "<a href='$url' target='_blank' rel='external nofollow' class='url'>$author</a>";
 }
 add_filter('get_comment_author_link', 'my_get_comment_author_link');
+
+ //给外部链接加上跳转
+ add_filter('the_content','the_content_nofollow',999);
+ function the_content_nofollow($content){
+ 	preg_match_all('/<a(.*?)href="(.*?)"(.*?)>/',$content,$matches);
+ 	if($matches){
+ 		foreach($matches[2] as $val){
+ 			if(strpos($val,'://')!==false && strpos($val,home_url())===false && !preg_match('/\.(jpg|jepg|png|ico|bmp|gif|tiff)/i',$val)){
+ 			    $content=str_replace("href=\"$val\"", "href=\"".home_url()."/go/?url=$val\" ",$content);
+ 			}
+ 		}
+ 	}
+ 	return $content;
+ }
