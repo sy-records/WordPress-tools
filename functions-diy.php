@@ -312,3 +312,17 @@ add_filter('get_comment_author_link', 'my_get_comment_author_link');
  	}
  	return $content;
  }
+
+//文章外链跳转伪静态版
+add_filter('the_content','link_jump',999);
+function link_jump($content){
+	preg_match_all('/<a(.*?)href="(.*?)"(.*?)>/',$content,$matches);
+	if($matches){
+	    foreach($matches[2] as $val){
+	        if(strpos($val,'://')!==false && strpos($val,home_url())===false && !preg_match('/\.(jpg|jepg|png|ico|bmp|gif|tiff)/i',$val) && !preg_match('/(ed2k|thunder|Flashget|flashget|qqdl):\/\//i',$val)){
+	        $content=str_replace("href=\"$val\"", "href=\"".home_url()."/go/".base64_encode($val)."\" rel=\"nofollow\"",$content);
+			}
+		}
+	}
+	return $content;
+}
