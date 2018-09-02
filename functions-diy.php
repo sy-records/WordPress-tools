@@ -348,3 +348,32 @@ function random_postlite() {
 }
 if ( isset( $_GET['random'] ) )
 add_action( 'template_redirect', 'random_postlite' );
+
+/**
+ * WordPress有新评论微信提醒管理员 | 沈唁志
+ * link：https://qq52o.me/1092.html
+ */
+function sc_send($comment_id)  
+{  
+$text = '博客有一条新评论';  
+$comment = get_comment($comment_id);  
+$desp = $comment->comment_content; 
+$key = '你的appkey'; 
+$postdata = http_build_query(  
+array(  
+'text' => $text,  
+'desp' => $desp  
+)  
+);  
+   
+$opts = array('http' =>  
+array(  
+'method' => 'POST',  
+'header' => 'Content-type: application/x-www-form-urlencoded',  
+'content' => $postdata  
+)  
+);  
+$context = stream_context_create($opts);  
+return $result = file_get_contents('http://sc.ftqq.com/'.$key.'.send', false, $context);  
+}  
+add_action('comment_post', 'sc_send', 19, 2);  
