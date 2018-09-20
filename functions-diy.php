@@ -376,4 +376,12 @@ array(
 $context = stream_context_create($opts);  
 return $result = file_get_contents('http://sc.ftqq.com/'.$key.'.send', false, $context);  
 }  
-add_action('comment_post', 'sc_send', 19, 2);  
+add_action('comment_post', 'sc_send', 19, 2);
+
+//WordPress 文章版权申明
+add_filter ('the_content', 'syz_copyright');
+function syz_copyright($content) {
+    $content.= '<p>除非注明，否则均为<a href="'.get_bloginfo('url').'" target="_blank">'.get_bloginfo('name').'</a>原创文章，转载必须以链接形式标明本文链接</p>';
+    $content.= '<p>本文链接：<a title="'.get_the_title().'" href="'.get_permalink().'" target="_blank">'.get_permalink().'</a></p>';
+    return $content;
+}
