@@ -228,7 +228,10 @@ function fanly_post_imgs() {
 	return $src;
 }
 
-//WordPress防止网站被别人iframe框架调用的方法
+/**
+ * WordPress防止网站被别人iframe框架调用的方法
+ * link：https://qq52o.me/2393.html
+ */
 function break_out_of_frames() {
 	if (!is_preview()) {
 		echo "\n<script type=\"text/javascript\">";
