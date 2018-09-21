@@ -388,3 +388,9 @@ function syz_copyright($content) {
     $content.= '<p>本文链接：<a title="'.get_the_title().'" href="'.get_permalink().'" target="_blank">'.get_permalink().'</a></p>';
     return $content;
 }
+
+//移除登录页面标题中的“ — WordPress”
+add_filter('login_title', 'remove_login_title', 10, 2);
+function remove_login_title($login_title, $title){
+    return $title.' &lsaquo; '.get_bloginfo('name');
+}
