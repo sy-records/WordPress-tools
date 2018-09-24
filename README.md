@@ -26,4 +26,5 @@
 23、添加随便看看  
 24、WordPress有新评论微信提醒管理员  
 25、WordPress 文章版权申明  
-26、移除登录页面标题中的“ — WordPress”
+26、移除登录页面标题中的“ — WordPress”  
+27、移除后台页面标题中的“ — WordPress”  
