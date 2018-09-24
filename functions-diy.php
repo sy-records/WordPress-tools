@@ -283,47 +283,49 @@ function syz_comment_post($incoming_comment) {
 add_filter('preprocess_comment', 'syz_comment_post');
 
 //标题变为|
-function Bing_title_separator_to_line(){
-    return '|';
+function Bing_title_separator_to_line() {
+	return '|';
 }
-add_filter( 'document_title_separator', 'Bing_title_separator_to_line' );
+add_filter('document_title_separator', 'Bing_title_separator_to_line');
 
 //彻底禁止WordPress缩略图
-add_filter( 'add_image_size', create_function( '', 'return 1;' ) );
+add_filter('add_image_size', create_function('', 'return 1;'));
 
- //评论作者链接新窗口打开
+//评论作者链接新窗口打开
 function my_get_comment_author_link() {
-	$url = get_comment_author_url( $comment_ID );
-	$author = get_comment_author( $comment_ID );
-	if ( empty( $url ) || 'http://' == $url )
-	return $author;
-	else
-	return "<a href='$url' target='_blank' rel='external nofollow' class='url'>$author</a>";
+	$url = get_comment_author_url($comment_ID);
+	$author = get_comment_author($comment_ID);
+	if (empty($url) || 'http://' == $url) {
+		return $author;
+	} else {
+		return "<a href='$url' target='_blank' rel='external nofollow' class='url'>$author</a>";
+	}
+
 }
 add_filter('get_comment_author_link', 'my_get_comment_author_link');
 
- //给外部链接加上跳转
- add_filter('the_content','the_content_nofollow',999);
- function the_content_nofollow($content){
- 	preg_match_all('/<a(.*?)href="(.*?)"(.*?)>/',$content,$matches);
- 	if($matches){
- 		foreach($matches[2] as $val){
- 			if(strpos($val,'://')!==false && strpos($val,home_url())===false && !preg_match('/\.(jpg|jepg|png|ico|bmp|gif|tiff)/i',$val)){
- 			    $content=str_replace("href=\"$val\"", "href=\"".home_url()."/go/?url=$val\" ",$content);
- 			}
- 		}
- 	}
- 	return $content;
- }
+//给外部链接加上跳转
+add_filter('the_content', 'the_content_nofollow', 999);
+function the_content_nofollow($content) {
+	preg_match_all('/<a(.*?)href="(.*?)"(.*?)>/', $content, $matches);
+	if ($matches) {
+		foreach ($matches[2] as $val) {
+			if (strpos($val, '://') !== false && strpos($val, home_url()) === false && !preg_match('/\.(jpg|jepg|png|ico|bmp|gif|tiff)/i', $val)) {
+				$content = str_replace("href=\"$val\"", "href=\"" . home_url() . "/go/?url=$val\" ", $content);
+			}
+		}
+	}
+	return $content;
+}
 
 //文章外链跳转伪静态版
-add_filter('the_content','link_jump',999);
-function link_jump($content){
-	preg_match_all('/<a(.*?)href="(.*?)"(.*?)>/',$content,$matches);
-	if($matches){
-	    foreach($matches[2] as $val){
-	        if(strpos($val,'://')!==false && strpos($val,home_url())===false && !preg_match('/\.(jpg|jepg|png|ico|bmp|gif|tiff)/i',$val) && !preg_match('/(ed2k|thunder|Flashget|flashget|qqdl):\/\//i',$val)){
-	        $content=str_replace("href=\"$val\"", "href=\"".home_url()."/go/".base64_encode($val)."\" rel=\"nofollow\"",$content);
+add_filter('the_content', 'link_jump', 999);
+function link_jump($content) {
+	preg_match_all('/<a(.*?)href="(.*?)"(.*?)>/', $content, $matches);
+	if ($matches) {
+		foreach ($matches[2] as $val) {
+			if (strpos($val, '://') !== false && strpos($val, home_url()) === false && !preg_match('/\.(jpg|jepg|png|ico|bmp|gif|tiff)/i', $val) && !preg_match('/(ed2k|thunder|Flashget|flashget|qqdl):\/\//i', $val)) {
+				$content = str_replace("href=\"$val\"", "href=\"" . home_url() . "/go/" . base64_encode($val) . "\" rel=\"nofollow\"", $content);
 			}
 		}
 	}
@@ -335,62 +337,67 @@ function link_jump($content){
  * link：https://qq52o.me/165.html
  */
 function random_postlite() {
-    global $wpdb;
-    $query = "SELECT ID FROM $wpdb->posts WHERE post_type = 'post' AND post_password = '' AND post_status = 'publish' ORDER BY RAND() LIMIT 1";
-    if ( isset( $_GET['random_cat_id'] ) ) {
-        $random_cat_id = (int) $_GET['random_cat_id'];
-        $query = "SELECT DISTINCT ID FROM $wpdb->posts AS p INNER JOIN $wpdb->term_relationships AS tr ON (p.ID = tr.object_id AND tr.term_taxonomy_id = $random_cat_id) INNER JOIN $wpdb->term_taxonomy AS tt ON(tr.term_taxonomy_id = tt.term_taxonomy_id AND taxonomy = 'category') WHERE post_type = 'post' AND post_password = '' AND post_status = 'publish' ORDER BY RAND() LIMIT 1";
-    }
-    if ( isset( $_GET['random_post_type'] ) ) {
-        $post_type = preg_replace( '|[^a-z]|i', '', $_GET['random_post_type'] );
-        $query = "SELECT ID FROM $wpdb->posts WHERE post_type = '$post_type' AND post_password = '' AND post_status = 'publish' ORDER BY RAND() LIMIT 1";
-    }
-    $random_id = $wpdb->get_var( $query );
-    wp_redirect( get_permalink( $random_id ) );
-    exit;
+	global $wpdb;
+	$query = "SELECT ID FROM $wpdb->posts WHERE post_type = 'post' AND post_password = '' AND post_status = 'publish' ORDER BY RAND() LIMIT 1";
+	if (isset($_GET['random_cat_id'])) {
+		$random_cat_id = (int) $_GET['random_cat_id'];
+		$query = "SELECT DISTINCT ID FROM $wpdb->posts AS p INNER JOIN $wpdb->term_relationships AS tr ON (p.ID = tr.object_id AND tr.term_taxonomy_id = $random_cat_id) INNER JOIN $wpdb->term_taxonomy AS tt ON(tr.term_taxonomy_id = tt.term_taxonomy_id AND taxonomy = 'category') WHERE post_type = 'post' AND post_password = '' AND post_status = 'publish' ORDER BY RAND() LIMIT 1";
+	}
+	if (isset($_GET['random_post_type'])) {
+		$post_type = preg_replace('|[^a-z]|i', '', $_GET['random_post_type']);
+		$query = "SELECT ID FROM $wpdb->posts WHERE post_type = '$post_type' AND post_password = '' AND post_status = 'publish' ORDER BY RAND() LIMIT 1";
+	}
+	$random_id = $wpdb->get_var($query);
+	wp_redirect(get_permalink($random_id));
+	exit;
 }
-if ( isset( $_GET['random'] ) )
-add_action( 'template_redirect', 'random_postlite' );
+if (isset($_GET['random'])) {
+	add_action('template_redirect', 'random_postlite');
+}
 
 /**
  * WordPress有新评论微信提醒管理员 | 沈唁志
  * link：https://qq52o.me/1092.html
  */
-function sc_send($comment_id)  
-{  
-$text = '博客有一条新评论';  
-$comment = get_comment($comment_id);  
-$desp = $comment->comment_content; 
-$key = '你的appkey'; 
-$postdata = http_build_query(  
-array(  
-'text' => $text,  
-'desp' => $desp  
-)  
-);  
-   
-$opts = array('http' =>  
-array(  
-'method' => 'POST',  
-'header' => 'Content-type: application/x-www-form-urlencoded',  
-'content' => $postdata  
-)  
-);  
-$context = stream_context_create($opts);  
-return $result = file_get_contents('http://sc.ftqq.com/'.$key.'.send', false, $context);  
-}  
+function sc_send($comment_id) {
+	$text = '博客有一条新评论';
+	$comment = get_comment($comment_id);
+	$desp = $comment->comment_content;
+	$key = '你的appkey';
+	$postdata = http_build_query(
+		array(
+			'text' => $text,
+			'desp' => $desp,
+		)
+	);
+
+	$opts = array('http' => array(
+		'method' => 'POST',
+		'header' => 'Content-type: application/x-www-form-urlencoded',
+		'content' => $postdata,
+	),
+	);
+	$context = stream_context_create($opts);
+	return $result = file_get_contents('http://sc.ftqq.com/' . $key . '.send', false, $context);
+}
 add_action('comment_post', 'sc_send', 19, 2);
 
 //WordPress 文章版权申明
-add_filter ('the_content', 'syz_copyright');
+add_filter('the_content', 'syz_copyright');
 function syz_copyright($content) {
-    $content.= '<p>除非注明，否则均为<a href="'.get_bloginfo('url').'" target="_blank">'.get_bloginfo('name').'</a>原创文章，转载必须以链接形式标明本文链接</p>';
-    $content.= '<p>本文链接：<a title="'.get_the_title().'" href="'.get_permalink().'" target="_blank">'.get_permalink().'</a></p>';
-    return $content;
+	$content .= '<p>除非注明，否则均为<a href="' . get_bloginfo('url') . '" target="_blank">' . get_bloginfo('name') . '</a>原创文章，转载必须以链接形式标明本文链接</p>';
+	$content .= '<p>本文链接：<a title="' . get_the_title() . '" href="' . get_permalink() . '" target="_blank">' . get_permalink() . '</a></p>';
+	return $content;
 }
 
 //移除登录页面标题中的“ — WordPress”
 add_filter('login_title', 'remove_login_title', 10, 2);
-function remove_login_title($login_title, $title){
-    return $title.' &lsaquo; '.get_bloginfo('name');
+function remove_login_title($login_title, $title) {
+	return $title . ' &lsaquo; ' . get_bloginfo('name');
+}
+
+//移除后台页面标题中的“ — WordPress”
+add_filter('admin_title', 'remove_admin_title', 10, 2);
+function remove_admin_title($admin_title, $title) {
+	return $title . ' &lsaquo; ' . get_bloginfo('name');
 }
