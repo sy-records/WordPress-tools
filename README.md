@@ -28,3 +28,5 @@
 25、WordPress 文章版权申明  
 26、移除登录页面标题中的“ — WordPress”  
 27、移除后台页面标题中的“ — WordPress”  
+28、WordPress 禁止可视化编辑模式  
+29、WordPress 移除管理员后台添加用户权限  
