@@ -401,3 +401,15 @@ add_filter('admin_title', 'remove_admin_title', 10, 2);
 function remove_admin_title($admin_title, $title) {
 	return $title . ' &lsaquo; ' . get_bloginfo('name');
 }
+
+//WordPress 禁止可视化编辑模式
+add_filter('user_can_richedit','__return_false');
+
+//WordPress 移除管理员后台添加用户权限
+add_action('init', 'remove_create_users');
+function remove_create_users() {
+	global $wp_roles;
+	if ( ! isset( $wp_roles ) )$wp_roles = new WP_Roles();
+	//$wp_roles->add_cap( 'administrator', 'create_users' );//添加管理员添加用户的权限
+	$wp_roles->remove_cap( 'administrator', 'create_users' );//移除管理员添加用户的权限
+}
