@@ -413,3 +413,7 @@ function remove_create_users() {
 	//$wp_roles->add_cap( 'administrator', 'create_users' );//添加管理员添加用户的权限
 	$wp_roles->remove_cap( 'administrator', 'create_users' );//移除管理员添加用户的权限
 }
+
+// 同时删除 head 和 feed 中的 WP 版本号
+add_filter('the_generator', 'syz_remove_wp_version');
+function syz_remove_wp_version() { return '';}
