@@ -417,3 +417,10 @@ function remove_create_users() {
 // 同时删除 head 和 feed 中的 WP 版本号
 add_filter('the_generator', 'syz_remove_wp_version');
 function syz_remove_wp_version() { return '';}
+
+//移除 WordPress 文章标题前的“私密/密码保护”提示文字
+function remove_title_prefix($content) {
+	return '%s';//这个不能省略
+}
+add_filter('private_title_format', 'remove_title_prefix');//私密
+add_filter('protected_title_format', 'remove_title_prefix');//密码保护
