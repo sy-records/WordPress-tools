@@ -31,4 +31,5 @@
 28、WordPress 禁止可视化编辑模式  
 29、WordPress 移除管理员后台添加用户权限  
 30、同时删除 head 和 feed 中的 WP 版本号  
-31、移除 WordPress 文章标题前的“私密/密码保护”提示文字
+31、移除 WordPress 文章标题前的“私密/密码保护”提示文字  
+32、WordPress 中文名、数字名图片上传自动重命名  
