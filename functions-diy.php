@@ -424,3 +424,16 @@ function remove_title_prefix($content) {
 }
 add_filter('private_title_format', 'remove_title_prefix');//私密
 add_filter('protected_title_format', 'remove_title_prefix');//密码保护
+
+//WordPress 中文名、数字名图片上传自动重命名
+add_filter('sanitize_file_name','custom_upload_name', 5, 1 );
+function custom_upload_name($file){
+	$info	= pathinfo($file);
+	$ext	= empty($info['extension']) ? '' : '.' . $info['extension'];
+	$name	= basename($file, $ext);
+	if(preg_match("/[一-龥]/u",$file)){//中文换名
+		$file	= substr(md5($name), 0, 20) . rand(00,99) . $ext;//截取前 20 位 MD5 长度，加上两位随机
+	}elseif(is_numeric($name)){//数字换名
+		$file	= substr(md5($name), 0, 20) . rand(00,99) . $ext;//截取前 20 位 MD5 长度，加上两位随机
+	}
+}
