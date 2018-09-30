@@ -437,3 +437,13 @@ function custom_upload_name($file){
 		$file	= substr(md5($name), 0, 20) . rand(00,99) . $ext;//截取前 20 位 MD5 长度，加上两位随机
 	}
 }
+
+//移除 WordPress 头部加载 DNS 预获取（dns-prefetch）
+function remove_dns_prefetch( $hints, $relation_type ) {
+    if ( 'dns-prefetch' === $relation_type ) {
+        return array_diff( wp_dependencies_unique_hosts(), $hints );
+    }
+ 
+    return $hints;
+}
+add_filter( 'wp_resource_hints', 'remove_dns_prefetch', 10, 2 );
