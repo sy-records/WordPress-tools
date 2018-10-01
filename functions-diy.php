@@ -447,3 +447,14 @@ function remove_dns_prefetch( $hints, $relation_type ) {
     return $hints;
 }
 add_filter( 'wp_resource_hints', 'remove_dns_prefetch', 10, 2 );
+
+//禁止 WordPress 动态文章 ID 访问
+add_action('parse_query', 'disable_permalink_isvars_p');
+function disable_permalink_isvars_p( $wp_query, $error = true ) {
+	if(get_query_var('p') && !is_preview()){
+		$wp_query->query_vars['p'] = false;
+		$wp_query->query['p'] = false;
+		// to error
+		if ( $error == true ) $wp_query->is_404 = true;
+	}
+}
