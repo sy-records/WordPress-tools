@@ -33,5 +33,5 @@
 30、同时删除 head 和 feed 中的 WP 版本号  
 31、移除 WordPress 文章标题前的“私密/密码保护”提示文字  
 32、WordPress 中文名、数字名图片上传自动重命名  
-33、移除 WordPress 头部加载 DNS 预获取（dns-prefetch）
-34、禁止 WordPress 动态文章 ID 访问
+33、移除 WordPress 头部加载 DNS 预获取（dns-prefetch）  
+34、禁止 WordPress 动态文章 ID 访问  
