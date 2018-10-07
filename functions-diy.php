@@ -448,6 +448,17 @@ function remove_dns_prefetch( $hints, $relation_type ) {
 }
 add_filter( 'wp_resource_hints', 'remove_dns_prefetch', 10, 2 );
 
+//禁止 WordPress 动态文章 ID 访问
+add_action('parse_query', 'disable_permalink_isvars_p');
+function disable_permalink_isvars_p( $wp_query, $error = true ) {
+	if(get_query_var('p') && !is_preview()){
+		$wp_query->query_vars['p'] = false;
+		$wp_query->query['p'] = false;
+		// to error
+		if ( $error == true ) $wp_query->is_404 = true;
+	}
+}
+
 //WordPress FEED utm_source
 //remove_filter( 'the_permalink_rss', 'filter_the_permalink_rss', 10, 2 ); 
 add_filter( 'the_permalink_rss', 'filter_the_permalink_rss', 10, 2 );
