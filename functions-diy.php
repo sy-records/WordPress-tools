@@ -447,3 +447,25 @@ function remove_dns_prefetch( $hints, $relation_type ) {
     return $hints;
 }
 add_filter( 'wp_resource_hints', 'remove_dns_prefetch', 10, 2 );
+
+//WordPress FEED utm_source
+//remove_filter( 'the_permalink_rss', 'filter_the_permalink_rss', 10, 2 ); 
+add_filter( 'the_permalink_rss', 'filter_the_permalink_rss', 10, 2 );
+function filter_the_permalink_rss() { 
+	$link =  esc_url( get_permalink() . '?utm_source=feed' );
+    return $link; 
+};
+//remove_filter( 'comments_link_feed', 'filter_comments_link_feed', 10, 2 ); 
+add_filter( 'comments_link_feed', 'filter_comments_link_feed', 10, 2 );
+function filter_comments_link_feed() {
+	$hash = get_comments_number( $post_id ) ? '#comments' : '#respond';
+    $comments_link = get_permalink( $post_id ) . '?utm_source=feed' . $hash;
+	$link = esc_url( $comments_link );
+    return $link; 
+}
+add_filter( 'the_guid', 'filter_the_guid', 10, 2 );
+function filter_the_guid($link, $int){
+	if(!is_feed())return;
+	$link = esc_url( $link . '&utm_source=feed' );
+    return $link; 
+}
