@@ -480,3 +480,20 @@ function filter_the_guid($link, $int){
 	$link = esc_url( $link . '&utm_source=feed' );
     return $link; 
 }
+
+//使用 smtp 发邮件
+add_action('phpmailer_init', 'syz_mail_smtp');
+function syz_mail_smtp( $phpmailer ) {
+	$phpmailer->IsSMTP();
+	$phpmailer->SMTPAuth = true;//启用 SMTPAuth 服务
+	$phpmailer->Port = 465;//MTP 邮件发送端口，这个和下面的 SSL 验证对应，如果这里填写 25，则下面参数为空
+	$phpmailer->SMTPSecure ="ssl";//是否验证 ssl，与 MTP 邮件发送端口对应，如果不填写，则上面的端口须为 25
+	$phpmailer->Host = "smtp.exmail.qq.com";//邮箱的 SMTP 服务器地址，目前 smtp.exmail.qq.com 为 QQ 邮箱和腾讯企业邮箱 SMTP
+	$phpmailer->Username = "sy_records@qq.com";//你的邮箱地址
+	$phpmailer->Password ="***************";//你的邮箱登录密码
+}
+//发件地址记得和 smtp 邮箱一致即可
+add_filter( 'wp_mail_from', 'syz_wp_mail_from' );
+function syz_wp_mail_from() {
+	return 'sy_records@qq.com';
+}
