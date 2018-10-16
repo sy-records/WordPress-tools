@@ -36,4 +36,5 @@
 33、移除 WordPress 头部加载 DNS 预获取（dns-prefetch）  
 34、禁止 WordPress 动态文章 ID 访问  
 35、为 WordPress Feed 订阅源添加 utm_source 跟踪参数  
-36、使用 smtp 发邮件
+36、使用 smtp 发邮件  
+37、WordPress首页排除隐藏指定分类文章  
