@@ -497,3 +497,12 @@ add_filter( 'wp_mail_from', 'syz_wp_mail_from' );
 function syz_wp_mail_from() {
 	return 'sy_records@qq.com';
 }
+
+//WordPress首页排除隐藏指定分类文章
+function exclude_category_in_home( $query ) {  
+    if ( $query->is_home ) {//是否首页  
+        $query->set( 'cat', '-1, -2' );  //排除的指定分类id  
+    }  
+    return $query;  
+}  
+add_filter( 'pre_get_posts', 'exclude_category_in_home' );
