@@ -506,3 +506,6 @@ function exclude_category_in_home( $query ) {
     return $query;  
 }  
 add_filter( 'pre_get_posts', 'exclude_category_in_home' );
+
+// 去掉评论中网址超链接
+remove_filter('comment_text', 'make_clickable', 9);
