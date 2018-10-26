@@ -38,3 +38,4 @@
 35、为 WordPress Feed 订阅源添加 utm_source 跟踪参数  
 36、使用 smtp 发邮件  
 37、WordPress首页排除隐藏指定分类文章  
+38、去掉评论中网址超链接
