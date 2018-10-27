@@ -509,3 +509,11 @@ add_filter( 'pre_get_posts', 'exclude_category_in_home' );
 
 // 去掉评论中网址超链接
 remove_filter('comment_text', 'make_clickable', 9);
+
+//移除Wordpress后台顶部左上角的W图标
+function annointed_admin_bar_remove() {
+        global $wp_admin_bar;
+        /* Remove their stuff */
+        $wp_admin_bar->remove_menu('wp-logo');
+}
+add_action('wp_before_admin_bar_render', 'annointed_admin_bar_remove', 0);
