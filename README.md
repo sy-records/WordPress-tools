@@ -1,5 +1,5 @@
 # WordPress-tools
-:zap:总结一下平时在WordPress使用中的实用代码段
+:zap:总结一下平时在WordPress使用中的实用代码段，欢迎提交PR
 
 1、友链管理  
 2、显示评论@回复了谁 不入数据库  
@@ -38,4 +38,5 @@
 35、为 WordPress Feed 订阅源添加 utm_source 跟踪参数  
 36、使用 smtp 发邮件  
 37、WordPress首页排除隐藏指定分类文章  
-38、去掉评论中网址超链接
+38、去掉评论中网址超链接  
+39、//移除Wordpress后台顶部左上角的W图标  
