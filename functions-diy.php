@@ -517,3 +517,10 @@ function annointed_admin_bar_remove() {
         $wp_admin_bar->remove_menu('wp-logo');
 }
 add_action('wp_before_admin_bar_render', 'annointed_admin_bar_remove', 0);
+
+//移除Wordpress后台顶部左上角的W图标
+add_action( 'admin_bar_menu', 'remove_wp_logo', 999 );
+
+function remove_wp_logo( $wp_admin_bar ) {
+    $wp_admin_bar->remove_node( 'wp-logo' );
+}
