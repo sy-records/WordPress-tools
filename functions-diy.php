@@ -524,3 +524,15 @@ add_action( 'admin_bar_menu', 'remove_wp_logo', 999 );
 function remove_wp_logo( $wp_admin_bar ) {
     $wp_admin_bar->remove_node( 'wp-logo' );
 }
+
+// 替换 WordPress 默认 Emoji 资源地址
+function change_wp_emoji_baseurl($url) {
+	return set_url_scheme('//twemoji.maxcdn.com/2/72x72/');
+}
+add_filter('emoji_url', 'change_wp_emoji_baseurl');
+
+// WordPress 4.6 新增 SVG 格式资源
+function change_wp_emoji_svgurl($url) {
+	return set_url_scheme('//twemoji.maxcdn.com/svg/');
+}
+add_filter('emoji_svg_url', 'change_wp_emoji_svgurl');
