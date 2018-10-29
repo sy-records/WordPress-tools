@@ -40,3 +40,5 @@
 37、WordPress首页排除隐藏指定分类文章  
 38、去掉评论中网址超链接  
 39、移除Wordpress后台顶部左上角的W图标  
+40、替换 WordPress 默认 Emoji 资源地址  
+41、WordPress 4.6 新增 SVG 格式资源  
