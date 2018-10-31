@@ -209,6 +209,7 @@ function fanly_post_imgs() {
 	if ($n >= 3) {
 		$src = $strResult[1][0] . '","' . $strResult[1][1] . '","' . $strResult[1][2];
 	} else {
+		// 这里的thumb 根据自己的主题而定
 		if ($values = get_post_custom_values("thumb")) {
 			//输出自定义域图片地址
 			$values = get_post_custom_values("thumb");
