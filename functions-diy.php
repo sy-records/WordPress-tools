@@ -537,3 +537,57 @@ function change_wp_emoji_svgurl($url) {
 	return set_url_scheme('//twemoji.maxcdn.com/svg/');
 }
 add_filter('emoji_svg_url', 'change_wp_emoji_svgurl');
+
+//RSS Feed 延迟
+function publish_later_on_feed($where) {
+    global $wpdb;
+    if ( is_feed() ) {
+        $now = gmdate('Y-m-d H:i:s');
+        //数据延迟2天显示，也就是feed只会输出截止到前天的数据，可根据实际需求自行修改
+        $wait = '2';
+        $device = 'DAY';
+        $where .= " AND TIMESTAMPDIFF($device, $wpdb->posts.post_date_gmt, '$now') > $wait ";
+    }
+    return $where;
+}
+add_filter('posts_where', 'publish_later_on_feed');
+
+// RSS 中添加查看全文链接
+function feed_read_more($content) {
+    return $content . '<p><a rel="bookmark" href="'.get_permalink().'" target="_blank">查看全文</a></p>';
+}
+add_filter ('the_excerpt_rss', 'feed_read_more');
+
+//Feed 输出文章特色图像（缩略图）
+function rss_post_thumbnail($content) {
+	global $post; //查询全局文章
+	if(has_post_thumbnail($post->ID)) { //如果有特色图像
+		$output = get_the_post_thumbnail($post->ID) ; //获取缩略图
+		$content = $output . $content ;
+	}
+	return $content;
+}
+add_filter('the_excerpt_rss', 'rss_post_thumbnail');
+add_filter('the_content_feed', 'rss_post_thumbnail');
+
+//禁用Feed订阅
+function wp_disable_feed() {
+	wp_die( __('<h1>抱歉，本站不支持订阅，请返回<a href="'. get_bloginfo('url') .'">首页</a></h1>') ); 
+}
+add_action('do_feed', 'wp_disable_feed', 1);
+add_action('do_feed_rdf', 'wp_disable_feed', 1);
+add_action('do_feed_rss', 'wp_disable_feed', 1);
+add_action('do_feed_rss2', 'wp_disable_feed', 1);
+add_action('do_feed_atom', 'wp_disable_feed', 1);
+
+//feed输出自定义版权
+function feed_copyright($content) {
+        if(is_feed()) {
+                $content.= "<blockquote>";
+                $content.= '<div> 　&raquo; 转载请保留版权：<a title="沈唁志" href="https://qq52o.me/">沈唁志</a> &raquo; <a rel="bookmark" title="'.get_the_title().'" href="'.get_permalink().'">《'.get_the_title().'》</a></div>';
+                $content.= '<div>　&raquo; 本文链接地址：<a rel="bookmark" title="'.get_the_title().'" href="'.get_permalink().'">'.get_permalink().'</a></div>';
+                $content.= "</blockquote>";
+        }
+        return $content;
+}
+add_filter ('the_content', 'feed_copyright');
