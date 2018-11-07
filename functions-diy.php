@@ -591,3 +591,12 @@ function feed_copyright($content) {
         return $content;
 }
 add_filter ('the_content', 'feed_copyright');
+
+function redirect_blank_search( $query_variables ) {
+    if ( isset( $_GET['s'] ) && empty( $_GET['s']) ) {
+        wp_redirect( home_url() );
+        exit;
+    }
+    return $query_variables;
+}
+add_filter( 'request', 'redirect_blank_search' );
