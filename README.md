@@ -43,4 +43,5 @@
 40、替换 WordPress 默认 Emoji 资源地址  
 41、WordPress 4.6 新增 SVG 格式资源  
 42-47、WordPress RSS/Feed源的一些设置  
-48、搜索词为空跳转首页
+48、搜索词为空跳转首页  
+49、关闭文章的标签功能
