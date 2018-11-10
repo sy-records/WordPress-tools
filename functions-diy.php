@@ -592,6 +592,7 @@ function feed_copyright($content) {
 }
 add_filter ('the_content', 'feed_copyright');
 
+// 搜索关键字为空时自动跳转到首页
 function redirect_blank_search( $query_variables ) {
     if ( isset( $_GET['s'] ) && empty( $_GET['s']) ) {
         wp_redirect( home_url() );
@@ -600,3 +601,9 @@ function redirect_blank_search( $query_variables ) {
     return $query_variables;
 }
 add_filter( 'request', 'redirect_blank_search' );
+
+// 关闭文章的标签功能
+function unregister_post_tag() {
+    unregister_taxonomy_for_object_type('post_tag', 'post');
+}
+add_action( 'init', 'unregister_post_tag' );
