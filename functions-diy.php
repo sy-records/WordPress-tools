@@ -607,3 +607,20 @@ function unregister_post_tag() {
     unregister_taxonomy_for_object_type('post_tag', 'post');
 }
 add_action( 'init', 'unregister_post_tag' );
+
+// 自定义代码高亮按钮
+function appthemes_add_quicktags() {
+    if (wp_script_is('quicktags')){
+?>
+		<script type="text/javascript">
+			QTags.addButton( 'syz_PHP', 'PHP', '<pre><code class="language-php">', '</code></pre>', 'z', 'PHP 代码高亮');
+			QTags.addButton( 'syz_HTML', 'HTML', '<pre ><code class="language-markup">', '</code></pre>', 'h', 'HTML 代码高亮');
+			QTags.addButton( 'syz_CSS', 'CSS', '<pre><code class="language-css">', '</code></pre>', 'c', 'CSS 代码高亮');
+			QTags.addButton( 'syz_Js', 'JavaScript', '<pre><code class="language-javascript">', '</code></pre>', 'j', 'JavaScript 代码高亮');
+			QTags.addButton( 'syz_Bash', 'Bash', '<pre><code class="language-bash">', '</code></pre>', 'b', 'Bash 代码高亮');
+			QTags.addButton( 'syz_Time', '时间轴', '<li><b>', '</b> </li>', 't', '发展历程和赞赏对应的时间轴');
+		</script>
+<?php
+    }
+}
+add_action( 'admin_print_footer_scripts', 'appthemes_add_quicktags' );
