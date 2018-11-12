@@ -624,3 +624,12 @@ function appthemes_add_quicktags() {
     }
 }
 add_action( 'admin_print_footer_scripts', 'appthemes_add_quicktags' );
+
+// 清理 WordPress 菜单中的 classes
+function cleanup_nav_menu_class( $classes ) {
+    return array_intersect($classes, array(
+        'current-menu-item',
+        'menu-item-has-children'
+    ));
+}
+add_filter('nav_menu_css_class', 'cleanup_nav_menu_class');
