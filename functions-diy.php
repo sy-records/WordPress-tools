@@ -633,3 +633,9 @@ function cleanup_nav_menu_class( $classes ) {
     ));
 }
 add_filter('nav_menu_css_class', 'cleanup_nav_menu_class');
+// 修改 gravatar 地址
+function unblock_gravatar( $avatar ) {
+    $avatar = str_replace( array( 'http://www.gravatar.com', 'http://0.gravatar.com', 'http://1.gravatar.com', 'http://2.gravatar.com' ), 'https://secure.gravatar.com', $avatar );
+    return $avatar;
+}
+add_filter( 'get_avatar', 'unblock_gravatar' );
