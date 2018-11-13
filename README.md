@@ -46,5 +46,5 @@
 48、搜索词为空跳转首页  
 49、关闭文章的标签功能  
 50、自定义代码高亮按钮  
-51、清理 WordPress 菜单中的 classes
+51、清理 WordPress 菜单中的 classes  
 52、修改 gravatar 地址  
