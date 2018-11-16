@@ -667,3 +667,11 @@ add_action('admin_menu', function (){
 	// Update the cached policy info when the policy page is updated.
 	remove_action( 'post_updated', array( 'WP_Privacy_Policy_Content', '_policy_page_updated' ) );
 },9);
+
+// wordpress上传文件重命名
+function git_upload_filter($file) {
+        $time = date("YmdHis");
+        $file['name'] = $time . "" . mt_rand(1, 100) . "." . pathinfo($file['name'], PATHINFO_EXTENSION);
+        return $file;
+}
+add_filter('wp_handle_upload_prefilter', 'git_upload_filter');
