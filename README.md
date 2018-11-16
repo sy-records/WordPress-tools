@@ -1,5 +1,29 @@
 # WordPress-tools
-:zap:总结一下平时在WordPress使用中的实用代码段，欢迎提交PR
+
+:zap:总结一下平时在 WordPress 使用中的实用代码段，欢迎提交PR
+
+## 使用方式
+
+为了防止主题更新覆盖 functions.php 文件造成自定义代码丢失，将下面的内容保存为 utf-8 格式的 php 文件，并起名为 `functions-diy.php`，放入跟主题的`functions.php` 文件同目录
+
+```php
+<?php
+/*
+你可以把本来要写在 function.php 中的代码写在这里，
+而无须担心更新主题时 function.php 被覆盖。
+*/
+
+```
+
+在 `functions.php` 中引入该文件
+
+```php
+require get_template_directory() . '/functions-diy.php';
+```
+
+找到你需要的对应代码，放入 `functio-diy.php` 中保存即可
+
+## 代码段
 
 1、友链管理  
 2、显示评论@回复了谁 不入数据库  
