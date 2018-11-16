@@ -48,4 +48,5 @@
 50、自定义代码高亮按钮  
 51、清理 WordPress 菜单中的 classes  
 52、修改 gravatar 地址  
-53、移除后台 Privacy 隐私政策设置页面及功能
+53、移除后台 Privacy 隐私政策设置页面及功能  
+54、WordPress 上传文件重命名
