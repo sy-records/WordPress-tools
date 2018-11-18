@@ -33,22 +33,22 @@ require get_template_directory() . '/functions-diy.php';
 6、后台登陆数学验证码  
 7、完全禁用 wp-json  
 8、移除头部 wp-json 标签和 HTTP header 中的 link  
-<del> 9、防止 WordPress 任意文件删除漏洞</del>  7月6日推送的4.9.7版本已修复  
+<del> 9、防止 WordPress 任意文件删除漏洞</del>  7月6日推送的 4.9.7 版本已修复  
 10、博客后台登录失败时发送邮件通知管理员  
 11、页面伪静态加上.html  
 12、禁用所有文章类型的修订版本  
 13、禁用自动保存  
-14、纯代码实现熊掌号H5页面结构化改造添加 JSON_LD 数据  
-15、防止网站被别人iframe框架调用的方法  
+14、纯代码实现熊掌号 H5 页面结构化改造添加 JSON_LD 数据  
+15、防止网站被别人 iframe 框架调用的方法  
 16、优化熊掌号主页显示 防止标题中的 - 被转义为实体符号  
 17、纯代码屏蔽垃圾评论  
-18、标题变为|  
-19、彻底禁止WordPress缩略图  
+18、标题变为 |  
+19、彻底禁 止WordPress 缩略图  
 20、评论作者链接新窗口打开  
 21、给外部链接加上跳转  
 22、文章外链跳转伪静态版  
 23、添加随便看看  
-24、WordPress有新评论微信提醒管理员  
+24、WordPress 有新评论微信提醒管理员  
 25、WordPress 文章版权申明  
 26、移除登录页面标题中的“ — WordPress”  
 27、移除后台页面标题中的“ — WordPress”  
@@ -61,17 +61,17 @@ require get_template_directory() . '/functions-diy.php';
 34、禁止 WordPress 动态文章 ID 访问  
 35、为 WordPress Feed 订阅源添加 utm_source 跟踪参数  
 36、使用 smtp 发邮件  
-37、WordPress首页排除隐藏指定分类文章  
+37、WordPress 首页排除隐藏指定分类文章  
 38、去掉评论中网址超链接  
-39、移除Wordpress后台顶部左上角的W图标  
+39、移除 Wordpress 后台顶部左上角的 W 图标  
 40、替换 WordPress 默认 Emoji 资源地址  
 41、WordPress 4.6 新增 SVG 格式资源  
-42-47、WordPress RSS/Feed源的一些设置  
+42-47、WordPress RSS/Feed 源的一些设置  
 48、搜索词为空跳转首页  
 49、关闭文章的标签功能  
 50、自定义代码高亮按钮  
 51、清理 WordPress 菜单中的 classes  
-52、修改 gravatar 地址  
+52、修改 Gravatar 地址  
 53、移除后台 Privacy 隐私政策设置页面及功能  
 54、WordPress 上传文件重命名
 55、给评论框加上图片按钮，可评论回复图片
