@@ -75,3 +75,4 @@ require get_template_directory() . '/functions-diy.php';
 53、移除后台 Privacy 隐私政策设置页面及功能  
 54、WordPress 上传文件重命名
 55、给评论框加上图片按钮，可评论回复图片
+56、一键实现Wordpress站点维护功能
