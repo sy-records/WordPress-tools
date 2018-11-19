@@ -689,3 +689,16 @@ function auto_comment_image( $comment ) {
       $comment["comment_content"] = $content;
       return $comment;
 }
+
+/**
+ * 一键实现Wordpress站点维护功能
+ */
+function syz_wp_maintenance_mode(){
+    if(!current_user_can('edit_themes') || !is_user_logged_in()){
+        $logo = 'https://img.qq52o.me/wp-content/uploads/2018/10/qq52o-logo.png'; // 请将此图片地址换为自己站点的logo图片地址
+        $blogname =  get_bloginfo('name');
+        $blogdescription = get_bloginfo('description');
+        wp_die('<div style="text-align:center"><img src="'.$logo.'" alt="'.$blogname.'" /><br /><br />'.$blogname.'正在例行维护中，请稍候...</div>', '站点维护中 - '.$blogname.' - '.$blogdescription ,array('response' => '503'));
+    }
+}
+add_action('get_header', 'syz_wp_maintenance_mode');
