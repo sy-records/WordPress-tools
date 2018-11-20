@@ -702,3 +702,18 @@ function syz_wp_maintenance_mode(){
     }
 }
 add_action('get_header', 'syz_wp_maintenance_mode');
+
+// 防止在WordPress别人冒充博主发表评论
+function syz_usecheck($incoming_comment) {
+		$isSpam = 0;
+		// 将以下代码中的 lxtx 改成博主昵称
+		if (trim($incoming_comment['comment_author']) == 'sy-records')
+				$isSpam = 1;
+		// 将以下代码中的 example#ilxtx.com 改成博主Email
+		if (trim($incoming_comment['comment_author_email']) == 'email@qq52o.me')
+				$isSpam = 1;
+		if(!$isSpam)
+				return $incoming_comment;
+		wp_die('请勿冒充博主发表评论');
+}
+if(!is_user_logged_in()) add_filter( 'preprocess_comment', 'syz_usecheck' );
