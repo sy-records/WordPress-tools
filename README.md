@@ -77,3 +77,4 @@ require get_template_directory() . '/functions-diy.php';
 55、给评论框加上图片按钮，可评论回复图片  
 56、一键实现Wordpress站点维护功能  
 57、防止在WordPress别人冒充博主发表评论  
+58、增加评论字数限制  
