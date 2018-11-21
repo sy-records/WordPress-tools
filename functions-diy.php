@@ -706,10 +706,10 @@ add_action('get_header', 'syz_wp_maintenance_mode');
 // 防止在WordPress别人冒充博主发表评论
 function syz_usecheck($incoming_comment) {
 		$isSpam = 0;
-		// 将以下代码中的 lxtx 改成博主昵称
+		// 将以下代码中的 sy-records 改成博主昵称
 		if (trim($incoming_comment['comment_author']) == 'sy-records')
 				$isSpam = 1;
-		// 将以下代码中的 example#ilxtx.com 改成博主Email
+		// 将以下代码中的 email@qq52o.me 改成博主Email
 		if (trim($incoming_comment['comment_author_email']) == 'email@qq52o.me')
 				$isSpam = 1;
 		if(!$isSpam)
@@ -717,3 +717,18 @@ function syz_usecheck($incoming_comment) {
 		wp_die('请勿冒充博主发表评论');
 }
 if(!is_user_logged_in()) add_filter( 'preprocess_comment', 'syz_usecheck' );
+
+// 增加评论字数限制
+function set_comments_length($commentdata) {
+		$minCommentlength = 5; //最少字數限制，建议设置为5-10个字
+		$maxCommentlength = 220; //最多字數限制，建议设置为150-200个字
+		$pointCommentlength = mb_strlen($commentdata['comment_content'],'UTF8'); //mb_strlen 一个中文字符当做一个长度
+		if ( ($pointCommentlength < $minCommentlength) && !is_user_logged_in() ){
+				wp_die('抱歉，您的评论字数过少，最少输入' . $minCommentlength .'个字（目前字数：'. $pointCommentlength .'）');
+		}
+		if ( ($pointCommentlength > $maxCommentlength) && !is_user_logged_in() ){
+				wp_die('抱歉，您的评论字数过多，最多输入' . $maxCommentlength .'个字（目前字数：'. $pointCommentlength .'）');
+		}
+		return $commentdata;
+}
+add_filter('preprocess_comment', 'set_comments_length');
