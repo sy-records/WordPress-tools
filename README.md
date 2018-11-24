@@ -48,7 +48,7 @@ require get_template_directory() . '/functions-diy.php';
 21、给外部链接加上跳转  
 22、文章外链跳转伪静态版  
 23、添加随便看看  
-24、WordPress 有新评论微信提醒管理员  
+24、WordPress 有新评论微信提醒管理员 使用方糖服务 
 25、WordPress 文章版权申明  
 26、移除登录页面标题中的“ — WordPress”  
 27、移除后台页面标题中的“ — WordPress”  
