@@ -732,3 +732,46 @@ function set_comments_length($commentdata) {
 		return $commentdata;
 }
 add_filter('preprocess_comment', 'set_comments_length');
+
+// 允许非管理员用户在评论中插入图片
+function my_allowed_edittag() {
+    define('CUSTOM_TAGS', true);
+    global $allowedposttags, $allowedtags;
+    $allowedposttags = array(
+        'strong' => array(),
+        'em' => array(),
+        'ol' => array(),
+        'li' => array(),
+        'u' => array(),
+        'ul' => array(),
+        'blockquote' => array(),
+        'code' => array(),
+        'pre' => array(
+            'style' => true,
+            'class' => true,
+        ),
+        'a' => array(
+        'href' => array (),
+        'title' => array ()),
+        'img' => array(
+        'src' => array ()),
+    );
+ 
+    $allowedtags = array(
+        'strong' => array(),
+        'em' => array(),
+        'ol' => array(),
+        'li' => array(),
+        'u' => array(),
+        'ul' => array(),
+        'blockquote' => array(),
+        'code' => array(),
+        'pre' => array(),
+        'a' => array(
+        'href' => array (),
+        'title' => array ()),
+        'img' => array(
+        'src' => array ()),
+    );
+}
+add_action('init', 'my_allowed_edittag', 10);
