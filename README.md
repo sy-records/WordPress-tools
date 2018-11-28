@@ -78,3 +78,4 @@ require get_template_directory() . '/functions-diy.php';
 56、一键实现Wordpress站点维护功能  
 57、防止在WordPress别人冒充博主发表评论  
 58、增加评论字数限制  
+59、允许非管理员用户在评论中插入图片等标签
