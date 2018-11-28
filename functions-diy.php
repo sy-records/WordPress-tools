@@ -733,7 +733,7 @@ function set_comments_length($commentdata) {
 }
 add_filter('preprocess_comment', 'set_comments_length');
 
-// 允许非管理员用户在评论中插入图片
+// 允许非管理员用户在评论中插入图片等标签
 function my_allowed_edittag() {
     define('CUSTOM_TAGS', true);
     global $allowedposttags, $allowedtags;
