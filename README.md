@@ -75,8 +75,8 @@ require get_template_directory() . '/functions-diy.php';
 53、移除后台 Privacy 隐私政策设置页面及功能  
 54、WordPress 上传文件重命名  
 55、给评论框加上图片按钮，可评论回复图片  
-56、一键实现Wordpress 点维护功能  
-57、防止在WordPress别人冒充博主发表评论  
+56、一键实现 Wordpress 点维护功能  
+57、防止在 WordPress 别人冒充博主发表评论  
 58、增加评论字数限制  
 59、允许非管理员用户在评论中插入图片等标签
-60、用admin用户名尝试登录
+60、禁用 admin 用户名尝试登录
