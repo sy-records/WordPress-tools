@@ -79,4 +79,5 @@ require get_template_directory() . '/functions-diy.php';
 57、防止在 WordPress 别人冒充博主发表评论  
 58、增加评论字数限制  
 59、允许非管理员用户在评论中插入图片等标签  
-60、禁用 admin 用户名尝试登录
+60、禁用 admin 用户名尝试登录  
+61、禁止 WordPress5.0 使用 Gutenberg 块编辑器  
