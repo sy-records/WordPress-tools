@@ -790,3 +790,7 @@ function wpjam_sanitize_user_no_admin($username, $raw_username, $strict){
 	}
 	return $username;
 }
+
+//禁止 WordPress5.0 使用 Gutenberg 块编辑器
+add_filter('use_block_editor_for_post', '__return_false');
+remove_action( 'wp_enqueue_scripts', 'wp_common_block_scripts_and_styles' );
