@@ -794,3 +794,14 @@ function wpjam_sanitize_user_no_admin($username, $raw_username, $strict){
 //禁止 WordPress5.0 使用 Gutenberg 块编辑器
 add_filter('use_block_editor_for_post', '__return_false');
 remove_action( 'wp_enqueue_scripts', 'wp_common_block_scripts_and_styles' );
+
+function remove_submenu() {
+    // 删除”设置”下面的子菜单”隐私”
+    remove_submenu_page('options-general.php', 'options-privacy.php');
+    // 删除”外观”下面的子菜单”编辑”
+    remove_submenu_page('themes.php', 'theme-editor.php');
+}
+if (is_admin()){
+    //删除子菜单
+    add_action('admin_init','remove_submenu');
+}
