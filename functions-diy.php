@@ -805,3 +805,18 @@ if (is_admin()){
     //删除子菜单
     add_action('admin_init','remove_submenu');
 }
+
+// 另一种随便看看代码
+add_action('init','random');
+function random() {
+	if( isset( $_GET['random'] ) ){
+		global $wpdb;
+		nocache_headers();//禁止浏览器缓存
+		$posts = get_posts('post_type=post&orderby=rand&numberposts=1');
+		foreach($posts as $post) {
+			$link = get_permalink($post);
+		}
+		wp_redirect($link,307);//307 临时跳转
+		exit;
+	}
+}
