@@ -82,3 +82,4 @@ require get_template_directory() . '/functions-diy.php';
 60、禁用 admin 用户名尝试登录  
 61、禁止 WordPress5.0 使用 Gutenberg 块编辑器  
 62、除子菜单  
+63、另一种随便看看代码  
