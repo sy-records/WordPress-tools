@@ -820,3 +820,20 @@ function random() {
 		exit;
 	}
 }
+
+// 删除文章时删除图片附件
+function delete_post_and_attachments($post_ID) {
+    global $wpdb;
+    //删除特色图片
+    $thumbnails = $wpdb->get_results( "SELECT * FROM $wpdb->postmeta WHERE meta_key = '_thumbnail_id' AND post_id = $post_ID" );
+        foreach ( $thumbnails as $thumbnail ) {
+        wp_delete_attachment( $thumbnail->meta_value, true );
+    }
+    //删除图片附件
+    $attachments = $wpdb->get_results( "SELECT * FROM $wpdb->posts WHERE post_parent = $post_ID AND post_type = 'attachment'" );
+        foreach ( $attachments as $attachment ) {
+        wp_delete_attachment( $attachment->ID, true );
+    }
+    $wpdb->query( "DELETE FROM $wpdb->postmeta WHERE meta_key = '_thumbnail_id' AND post_id = $post_ID" );
+}
+add_action('before_delete_post', 'delete_post_and_attachments');
