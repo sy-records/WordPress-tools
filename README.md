@@ -83,3 +83,4 @@ require get_template_directory() . '/functions-diy.php';
 61、禁止 WordPress5.0 使用 Gutenberg 块编辑器  
 62、除子菜单  
 63、另一种随便看看代码  
+64、删除文章时删除图片附件
