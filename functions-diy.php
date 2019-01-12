@@ -837,3 +837,28 @@ function delete_post_and_attachments($post_ID) {
     $wpdb->query( "DELETE FROM $wpdb->postmeta WHERE meta_key = '_thumbnail_id' AND post_id = $post_ID" );
 }
 add_action('before_delete_post', 'delete_post_and_attachments');
+
+// 文章内容添加文章目录
+function content_index($content) {
+  if(is_single()){
+    $matches = array();
+    $ul_li = '';
+    $r = "/<h2>([^<]+)<\/h2>/im";
+    if(preg_match_all($r, $content, $matches)) {
+        foreach($matches[1] as $num => $title) {
+            $content = str_replace($matches[0][$num], '<h2 id="title-'.$num.'">'.$title.'</h2>', $content);
+            $ul_li .= '<li><a href="#title-'.$num.'" title="'.$title.'">'.$title."</a></li>\n";
+        }
+        $content = "\n<div id=\"article-index\"><h3><span>文章目录</span></h3>
+                <ul id=\"index-ul\">\n" . $ul_li . "</ul>
+            </div>\n" . $content;
+    }
+}
+    return $content;
+}
+
+add_filter( "the_content", "content_index", 13 );
+// 如果手机端不想显示的话，可以使用(二选一)
+if ( !wp_is_mobile()){
+	add_filter( "the_content", "content_index", 13 );
+}
