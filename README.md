@@ -2,7 +2,27 @@
 
 :zap:总结一下平时在 WordPress 使用中的实用代码段，欢迎提交PR
 
-## 使用方式
+## 更新 WordPress
+
+使用 WP-CLI 更新 WordPress 
+
+### 安装
+
+```bash
+curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+php wp-cli.phar --info # 检查是否可用
+chmod +x wp-cli.phar
+sudo mv wp-cli.phar /usr/local/bin/wp # 简化命令
+```
+
+### 更新
+
+```bash
+wp core update  # 更新核心
+wp core update-db  # 更新数据库
+```
+
+## 短代码使用方式
 
 为了防止主题更新覆盖 functions.php 文件造成自定义代码丢失，将下面的内容保存为 utf-8 格式的 php 文件，并起名为 `functions-diy.php`，放入跟主题的`functions.php` 文件同目录
 
