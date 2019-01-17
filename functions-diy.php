@@ -862,3 +862,15 @@ add_filter( "the_content", "content_index", 13 );
 if ( !wp_is_mobile()){
 	add_filter( "the_content", "content_index", 13 );
 }
+
+
+//remove insert images attribute 移除 img 的 width、height、class 属性
+//add_filter( 'the_content', 'remove_images_attribute', 99 );
+add_filter( 'post_thumbnail_html', 'remove_images_attribute', 10 );
+add_filter( 'image_send_to_editor', 'remove_images_attribute', 10 );
+function remove_images_attribute( $html ) {
+	//$html = preg_replace( '/(width|height)="\d*"\s/', "", $html );
+	$html = preg_replace( '/width="(\d*)"\s+height="(\d*)"\s+class=\"[^\"]*\"/', "", $html );
+	$html = preg_replace( '/  /', "", $html );
+	return $html;
+}
