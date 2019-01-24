@@ -874,3 +874,16 @@ function remove_images_attribute( $html ) {
 	$html = preg_replace( '/  /', "", $html );
 	return $html;
 }
+
+// WordPress文章发布时弹出确认发布对话框
+$c_message = '请再次确认是否要发布这篇文章？';
+function confirm_publish(){
+global $c_message;
+echo '<script type="text/javascript"><!--
+var publish = document.getElementById("publish");
+if (publish !== null) publish.onclick = function(){
+    return confirm("'.$c_message.'");
+};
+// --></script>';
+}
+add_action('admin_footer', 'confirm_publish');
