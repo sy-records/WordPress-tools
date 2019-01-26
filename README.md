@@ -105,4 +105,5 @@ require get_template_directory() . '/functions-diy.php';
 63、另一种随便看看代码  
 64、删除文章时删除图片附件  
 65、文章内容添加文章目录  
-66、移除 img 的 width、height、class 属性
+66、移除 img 的 width、height、class 属性  
+67、WordPress文章发布时弹出确认发布对话框  
