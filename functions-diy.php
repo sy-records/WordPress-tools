@@ -614,7 +614,7 @@ function appthemes_add_quicktags() {
 ?>
 		<script type="text/javascript">
 			QTags.addButton( 'syz_PHP', 'PHP', '<pre><code class="language-php">', '</code></pre>', 'z', 'PHP 代码高亮');
-			QTags.addButton( 'syz_HTML', 'HTML', '<pre ><code class="language-markup">', '</code></pre>', 'h', 'HTML 代码高亮');
+			QTags.addButton( 'syz_HTML', 'HTML', '<pre><code class="language-markup">', '</code></pre>', 'h', 'HTML 代码高亮');
 			QTags.addButton( 'syz_CSS', 'CSS', '<pre><code class="language-css">', '</code></pre>', 'c', 'CSS 代码高亮');
 			QTags.addButton( 'syz_Js', 'JavaScript', '<pre><code class="language-javascript">', '</code></pre>', 'j', 'JavaScript 代码高亮');
 			QTags.addButton( 'syz_Bash', 'Bash', '<pre><code class="language-bash">', '</code></pre>', 'b', 'Bash 代码高亮');
