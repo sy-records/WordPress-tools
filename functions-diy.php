@@ -887,3 +887,9 @@ function confirm_publish(){
 		// --></script>';
 	}
 add_action('admin_footer', 'confirm_publish');
+
+// 禁止通过id访问author页面
+function my_author_link() {
+    return home_url('/' );
+}
+add_filter('author_link','my_author_link');
