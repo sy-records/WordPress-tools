@@ -893,3 +893,14 @@ function my_author_link() {
     return home_url('/' );
 }
 add_filter('author_link','my_author_link');
+
+// 获取bing图 if(!empty(get_bing_img())){echo "style='background-image: url(".get_bing_img().")'";}
+function get_bing_img()
+{
+	// 从bing获取数据
+	$res = file_get_contents('https://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1');
+	// 转成数组
+	$bingArr = json_decode($res, true);
+	$src = "https://cn.bing.com{$bingArr['images'][0]['urlbase']}_1920x1080.jpg";
+	return $src;
+}
