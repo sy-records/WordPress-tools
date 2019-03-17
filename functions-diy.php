@@ -904,3 +904,32 @@ function get_bing_img()
 	$src = "https://cn.bing.com{$bingArr['images'][0]['urlbase']}_1920x1080.jpg";
 	return $src;
 }
+
+// 获取bing到本地，每日清理
+function get_bing_img_cache()
+{
+	// 获取wp路径
+	$imgDir = wp_upload_dir();
+	$bingDir = $imgDir['basedir'].'/bing';
+	if (!file_exists($bingDir)) {
+		mkdir($bingDir, 0755);
+	}
+	$today = mktime(0,0,0,date('m'),date('d'),date('Y'));
+	$yesterday = mktime(0,0,0,date('m'),date('d')-1,date('Y'));
+	// 是否存在今日图片
+	if (!file_exists($bingDir.'/'.$today.'.jpg')) {
+		// 从bing获取数据
+		$res = file_get_contents('https://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1');
+		// 转成数组
+		$bingArr = json_decode($res, true);
+		$bing_url = "https://cn.bing.com{$bingArr['images'][0]['urlbase']}_1920x1080.jpg";
+		$content = file_get_contents($bing_url);
+		file_put_contents($bingDir.'/'.$today.'.jpg', $content); // 写入今天的
+		unlink($bingDir.$yesterday); //删除昨天的
+		$src = $imgDir['baseurl'].'/bing/'.$yesterday.'.jpg';
+	} else {
+		// 存在
+		$src = $imgDir['baseurl'].'/bing/'.$today.'.jpg';
+	}
+	return $src;
+}
