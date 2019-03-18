@@ -925,7 +925,7 @@ function get_bing_img_cache()
 		$bing_url = "https://cn.bing.com{$bingArr['images'][0]['urlbase']}_1920x1080.jpg";
 		$content = file_get_contents($bing_url);
 		file_put_contents($bingDir.'/'.$today.'.jpg', $content); // 写入今天的
-		unlink($bingDir.$yesterday); //删除昨天的
+		unlink($bingDir.'/'.$yesterday.'jpg'); //删除昨天的
 		$src = $imgDir['baseurl'].'/bing/'.$yesterday.'.jpg';
 	} else {
 		// 存在
