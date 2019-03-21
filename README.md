@@ -109,3 +109,4 @@ require get_template_directory() . '/functions-diy.php';
 67、WordPress 文章发布时弹出确认发布对话框  
 68、禁止通过 id 访问 author 页面  
 69、获取 bing 美图，设置为头图
+70、文章内引用评论
