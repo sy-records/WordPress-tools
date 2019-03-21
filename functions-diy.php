@@ -933,3 +933,31 @@ function get_bing_img_cache()
 	}
 	return $src;
 }
+
+// 文章引用评论 [fa_insert_comments ids=123,456]
+function fa_insert_comments( $atts, $content = null ){
+    extract( shortcode_atts( array('ids' => ''),$atts ) );
+    $content     = '';
+    $comment_ids = explode(',', $ids);
+    $query_args  = array('comment__in'=>$comment_ids,);
+    $fa_comments = get_comments($query_args);
+    if ( empty($fa_comments) ) return;
+    foreach ($fa_comments as $key => $fa_comment) {
+        $content .=
+       '<div class="comment-mixtapeEmbed">
+        <span class="comment-mixtapeEmbed-avatar">
+      ' . get_avatar($fa_comment->comment_author_email,32) . '
+        </span>
+        <div class="comment-mixtapeEmbed-author">
+      ' . $fa_comment->comment_author . '
+       </div>
+       <div class="comment-mixtapeEmbed-date">
+      ' . $fa_comment->comment_date .'
+       </div><div class="comment-mixtapeEmbed-text">
+      '.  $fa_comment->comment_content . '
+      </div>
+      </div>';
+    }
+    return $content;
+}
+add_shortcode('fa_insert_comments','fa_insert_comments');
