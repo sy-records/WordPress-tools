@@ -110,3 +110,4 @@ require get_template_directory() . '/functions-diy.php';
 68、禁止通过 id 访问 author 页面  
 69、获取 bing 美图，设置为头图  
 70、在文章内引用评论  
+71、评论作者链接新窗口打开 评论不超过30条不展示链接  
