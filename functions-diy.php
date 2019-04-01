@@ -988,3 +988,4 @@ function my_get_comment_author_link() {
 	}
 }
 add_filter('get_comment_author_link', 'my_get_comment_author_link');
+
