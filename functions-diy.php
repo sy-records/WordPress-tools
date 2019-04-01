@@ -961,3 +961,30 @@ function fa_insert_comments( $atts, $content = null ){
     return $content;
 }
 add_shortcode('fa_insert_comments','fa_insert_comments');
+
+// 评论作者链接新窗口打开 评论不超过30条不展示链接
+function my_get_comment_author_link() {
+	$comment = get_comment( $comment_ID );
+	$url = $comment->comment_author_url;
+	$author = $comment->comment_author;
+	if ( empty( $url ) || 'http://' == $url ) {
+		return $author; // 无外链跳转
+	} else {
+		if ($comment->user_id != 1) {
+			$num = 0;
+			if ( !empty($comment->comment_author_email) ) {
+				$num = get_comments(array(
+					'author_email' => $comment->comment_author_email,
+					'number' => '1',
+					'type' => 'comment',
+					'count' => 'true'
+				));
+			}
+			if ($num < 30) {
+				return $author; // 无外链跳转
+			}
+		}
+		return "<a href='$url' target='_blank' rel='external nofollow' class='url'>$author</a>";
+	}
+}
+add_filter('get_comment_author_link', 'my_get_comment_author_link');
