@@ -989,3 +989,23 @@ function my_get_comment_author_link() {
 }
 add_filter('get_comment_author_link', 'my_get_comment_author_link');
 
+// 禁用 WordPress 附件页面
+function wpb_redirect_attachment_to_post()
+{
+    if (is_attachment() ) {
+        global $post;
+        if(empty($post) ) { $post = get_queried_object();
+        }
+        if ($post->post_parent) {
+            $link = get_permalink($post->post_parent);
+            wp_redirect($link, '301');
+            exit();
+        }
+        else {
+            // What to do if parent post is not available
+            wp_redirect(home_url(), '301');
+            exit();
+        }
+    }
+}
+add_action('template_redirect', 'wpb_redirect_attachment_to_post');
