@@ -111,3 +111,4 @@ require get_template_directory() . '/functions-diy.php';
 69、获取 bing 美图，设置为头图  
 70、在文章内引用评论  
 71、评论作者链接新窗口打开 评论不超过30条不展示链接  
+72、禁用 WordPress 附件页面  
