@@ -1009,3 +1009,11 @@ function wpb_redirect_attachment_to_post()
     }
 }
 add_action('template_redirect', 'wpb_redirect_attachment_to_post');
+
+// 修改小工具分类目录排序
+add_filter( 'widget_categories_args', 'wpb_force_empty_cats' );
+function wpb_force_empty_cats($cat_args) {
+	$cat_args['orderby'] = 'count'; // 排序字段，可以是name或count
+	$cat_args['order'] = 'desc'; // 升序或降序，ASC或DESC
+	return $cat_args;
+}
