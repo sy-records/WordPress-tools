@@ -113,3 +113,4 @@ require get_template_directory() . '/functions-diy.php';
 71、评论作者链接新窗口打开 评论不超过30条不展示链接  
 72、禁用 WordPress 附件页面  
 73、修改小工具分类目录排序  
+74、修改登录页面logo、跳转地址
