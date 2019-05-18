@@ -1017,3 +1017,17 @@ function wpb_force_empty_cats($cat_args) {
 	$cat_args['order'] = 'desc'; // 升序或降序，ASC或DESC
 	return $cat_args;
 }
+
+//  替换登陆页logo跳转地址
+function custom_logo_url($url) {
+    // return home_url(); 
+    return "https://qq52o.me";
+}
+add_filter( 'login_headerurl', 'custom_logo_url');
+
+// 登录logo
+function custom_login() { 
+	echo '<style type="text/css">.login h1 a{background-image:url('. get_bloginfo('template_directory') .'/img/logo.png);width:230px;background-size:230px}</style>
+	';
+} 
+add_action('login_head', 'custom_login');
