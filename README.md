@@ -115,3 +115,4 @@ require get_template_directory() . '/functions-diy.php';
 73、修改小工具分类目录排序  
 74、修改登录页面logo、跳转地址  
 75、[纯代码屏蔽WordPress后台无用项让你的后台更加简洁](https://qq52o.me/2684.html)  
+76、搜索结果为一个的时候跳转页面  
