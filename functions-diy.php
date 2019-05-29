@@ -1031,3 +1031,14 @@ function custom_login() {
 	';
 } 
 add_action('login_head', 'custom_login');
+
+// 搜索结果为一个的时候跳转页面
+function category_jump_page() {
+	if(is_category() || is_search()) { //判断是否是分类列表页面或者搜索结果页面
+		global $wp_query; //定义全局变量
+		if ($wp_query->post_count == 1) { //判断文章数量是否是1
+			wp_redirect( get_permalink( $wp_query->posts['0']->ID ) ); //如果是1则使用wordpress内置函数wp_redirect跳转
+		}
+	}
+}
+add_action('template_redirect', 'category_jump_page');
