@@ -4,7 +4,7 @@
 
 ## 更新 WordPress
 
-使用 WP-CLI 更新 WordPress 
+[推荐使用 WP-CLI 更新 WordPress](https://qq52o.me/2599.html)
 
 ### 安装
 
